@@ -62,7 +62,7 @@ int main(void) {
 		static struct String input_cursor = string_static_init(">> ");
 		struct Tokenizer tokenizer = { 0 };
 		struct Tokenizer_Next_Result tokenizer_result = { 0 };
-		u64 stdin_bytes_read = 0;
+		i64 stdin_bytes_read = 0;
 
 		dynamic_array_clear(&args_array);
 		dynamic_array_clear(&args_string_array);
@@ -106,6 +106,38 @@ int main(void) {
 				_exit(arg_value);
 			}
 			if (string_compare_is_equal(tokenizer_result.token, builtin_pwd_string)) {
+				struct String cwd = { 0 };
+				char *cwd_raw_string = getcwd((char*)args_string_array.data, 4096);
+
+				cwd.data = cwd_raw_string;
+				while (cwd_raw_string[cwd.length++] != '\0') {}
+
+				println(cwd);
+				continue;
+			}
+			if (string_compare_is_equal(tokenizer_result.token, builtin_cd_string)) {
+				static struct String no_path_error_string = string_static_init("No path was provided!");
+				struct Tokenizer_Next_Result result = tokenizer_next(&tokenizer);
+				char *str_ptr = (char*)args_string_array.data;
+				i64 i;
+
+				switch (result.error) {
+				case Tokenizer_Next_Error_None:
+					break;
+				case Tokenizer_Next_Error_EOF:
+					eprintln(no_path_error_string);
+					continue;
+				default:
+					continue;
+				}
+
+				/* Convert to C string */
+				for (i = 0; i < result.token.length; i++) {
+					str_ptr[i] = result.token.data[i];
+				}
+				str_ptr[i] = '\0';
+
+				chdir(str_ptr);
 			}
 		}
 

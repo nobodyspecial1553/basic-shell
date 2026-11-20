@@ -38,7 +38,7 @@ static struct Tokenizer_Next_Result tokenizer_next(struct Tokenizer *tokenizer) 
 	struct Tokenizer_Next_Result result = { 0 };
 
 	/*
-		 Skipping past all whitespace
+		 Skipping past whitespace
 	*/
 	while (true) {
 		switch (tokenizer->command.data[tokenizer->index]) {
