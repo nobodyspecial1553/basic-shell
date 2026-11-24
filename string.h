@@ -34,7 +34,6 @@ static struct String string_slice(struct String base_string, i64 offset, i64 len
 /*
 	 A length of zero will translate to 'full length'
 */
-struct Array;
 static struct String string_from_array(struct Array array, i64 offset, i64 length) {
 	struct String string_array;
 	string_array.data = (char*)array.data;

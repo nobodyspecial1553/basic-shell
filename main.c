@@ -46,14 +46,14 @@ int main(void) {
 		 - Changes being only visible to the calling process means if the process is forked, changes will be private to both the parent and child process instead of being shared (Search "Copy-On-Write")
 		 Note: nil is a custom value I defined to represent a NULL pointer
 	*/
-	stdin_data.data = mmap(nil, stdin_data.length, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0);
+	stdin_data.data = mmap(nil, stdin_data.length, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 
 	args_array.length = MEGABYTE;
-	args_array.data = mmap(nil, args_array.length, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0);
+	args_array.data = mmap(nil, args_array.length, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 
 	/* We love consuming virtual memory address space for a basic shell! YEAAAAAH!!! */
 	args_string_array.length = 2 * GIGABYTE;
-	args_string_array.data = mmap(nil, args_string_array.length, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0);
+	args_string_array.data = mmap(nil, args_string_array.length, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 
 	/*
 		 This is the outer-most loop which will take in data from stdin and execute the commands

@@ -19,7 +19,7 @@ struct Dynamic_Array { /* Fixed-size dynamic array, no resize */
 static void dyanmic_array_init(struct Dynamic_Array *dynamic_array, u64 capacity) {
 	dynamic_array->length = 0;
 	dynamic_array->capacity = capacity;
-	dynamic_array->data = mmap(nil, dynamic_array->capacity, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0);
+	dynamic_array->data = mmap(nil, dynamic_array->capacity, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 }
 
 #define dynamic_array_push(dynamic_array, data_ptr, count)\
